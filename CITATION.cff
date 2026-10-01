@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If Norn helps your work, please cite the runtime and the optional integrations you use."
+title: "Norn: A local-first agent runtime"
+type: software
+version: 0.2.0
+date-released: 2026-10-01
+authors:
+  - family-names: NASIM
+    given-names: MD
+    orcid: null
+repository-code: "https://github.com/nasimubd/norn"
+url: "https://github.com/nasimubd/norn"
+license: Apache-2.0
+keywords:
+  - agent-runtime
+  - task-routing
+  - decision-models
+  - computer-use
+  - Argus
