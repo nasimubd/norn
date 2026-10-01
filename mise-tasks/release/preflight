@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+test -z "$(git status --porcelain)" || { echo "working tree is not clean" >&2; git status --short; exit 1; }
+git diff --check
+./mise-tasks/release/check
+echo "release preflight passed"
