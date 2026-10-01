@@ -2,6 +2,13 @@
 
 All notable changes to Norn are documented here.
 
+## 0.10.0
+
+### Added
+
+- Final end-to-end verification command and CI workflow.
+- Synchronized runtime, package, and citation version metadata.
+
 ## [Unreleased]
 
 ### Added
