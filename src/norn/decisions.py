@@ -20,10 +20,13 @@ class DecisionProvider(Protocol):
 class HttpDecisionProvider:
     """Client for TypeSafe-compatible /v1/systemone decision endpoints."""
 
-    def __init__(self, base_url: str, model: str = "local", timeout: float = 10.0) -> None:
+    def __init__(self, base_url: str, model: str = "local", timeout: float = 10.0, api_key: str | None = None) -> None:
+        if timeout <= 0:
+            raise ValueError("timeout must be positive")
         self.base_url = base_url.rstrip("/")
         self.model = model
         self.timeout = timeout
+        self.api_key = api_key
 
     def decide(self, state: Any, questions: dict[str, TypedQuestion]) -> dict[str, Any]:
         payload = {
@@ -38,10 +41,13 @@ class HttpDecisionProvider:
                 for key, question in questions.items()
             },
         }
+        headers = {"Content-Type": "application/json"}
+        if self.api_key:
+            headers["Authorization"] = f"Bearer {self.api_key}"
         request = Request(
             f"{self.base_url}/v1/systemone",
             data=json.dumps(payload).encode(),
-            headers={"Content-Type": "application/json"},
+            headers=headers,
             method="POST",
         )
         with urlopen(request, timeout=self.timeout) as response:
