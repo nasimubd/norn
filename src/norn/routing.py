@@ -27,9 +27,16 @@ class Router:
             },
         )
         answer = response.get("answers", {}).get("route", {})
+        if not isinstance(answer, dict):
+            return Decision(DecisionKind.APPROVAL, 0.0, "Decision provider returned a malformed answer", source="decision-model")
         choice = answer.get("choice", "approval")
         probabilities = answer.get("probabilities", {})
-        confidence = float(answer.get("confidence", probabilities.get(choice, 0.0)))
+        if not isinstance(probabilities, dict):
+            probabilities = {}
+        try:
+            confidence = float(answer.get("confidence", probabilities.get(choice, 0.0)))
+        except (TypeError, ValueError):
+            confidence = 0.0
         kind = DecisionKind(choice) if choice in DecisionKind._value2member_map_ else DecisionKind.APPROVAL
         return self.policy.gate(task, Decision(kind, confidence, "Typed decision provider selected the route", probabilities, "decision-model"))
 
