@@ -14,4 +14,4 @@ class AuditLog:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         entry = {"at": datetime.now(UTC).isoformat(), "event": event, **fields}
         with self.path.open("a", encoding="utf-8") as stream:
-            stream.write(json.dumps(entry, sort_keys=True) + "\n")
+            stream.write(json.dumps(entry, ensure_ascii=False, sort_keys=True) + "\n")
