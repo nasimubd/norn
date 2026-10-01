@@ -5,6 +5,9 @@ import json
 import sys
 
 from .models import Task
+from .executors import DryRunExecutor
+from .health import check
+from .registry import ExecutorRegistry
 from .routing import Router
 
 
@@ -14,6 +17,7 @@ def build_parser() -> argparse.ArgumentParser:
     route = subparsers.add_parser("route", help="show the selected route without executing it")
     route.add_argument("instruction")
     route.add_argument("--json", action="store_true", help="emit machine-readable output")
+    subparsers.add_parser("health", help="show non-invasive local readiness")
     return parser
 
 
@@ -28,6 +32,12 @@ def main(argv: list[str] | None = None) -> int:
         else:
             print(f"{decision.kind.value} ({decision.confidence:.0%}): {decision.rationale}")
         return 0
+    if args.command == "health":
+        registry = ExecutorRegistry()
+        registry.register(DryRunExecutor())
+        result = check(registry)
+        print(json.dumps({"ready": result.ready, "executors": result.executors, "reason": result.reason}, sort_keys=True))
+        return 0 if result.ready else 1
     return 2
 
 
