@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+git fetch origin --tags --quiet
+printf 'local=%s\n' "$(git rev-parse HEAD)"
+printf 'remote=%s\n' "$(git rev-parse origin/main)"
+printf 'version=%s\n' "$(cat VERSION)"
