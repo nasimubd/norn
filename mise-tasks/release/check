@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+test -f VERSION
+test -f CHANGELOG.md
+test -f release.config.cjs
+node --check release.config.cjs
+python3 -m compileall -q src
+echo "release tooling checks passed"
