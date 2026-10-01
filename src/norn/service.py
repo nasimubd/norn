@@ -9,6 +9,8 @@ from .routing import Router
 
 def route_payload(payload: dict[str, Any], router: Router) -> dict[str, Any]:
     instruction = payload.get("instruction")
+    if instruction is None:
+        raise ValueError("instruction is required")
     if not isinstance(instruction, str):
         raise TypeError("instruction must be a string")
     task = normalize(instruction, capabilities=set(payload.get("capabilities", [])), metadata=payload.get("metadata"))
