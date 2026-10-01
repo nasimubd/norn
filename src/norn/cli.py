@@ -4,9 +4,9 @@ import argparse
 import json
 import sys
 
-from .models import Task
 from .executors import DryRunExecutor
 from .health import check
+from .models import Task
 from .registry import ExecutorRegistry
 from .routing import Router
 
