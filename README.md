@@ -97,7 +97,7 @@ Norn keeps these projects as optional runtime integrations or compatibility targ
 ### Norn
 
 ```bibtex
-@software{nasim_norn,
+  @software{norn,
   author = {MD NASIM},
   title = {Norn: A local-first agent runtime},
   year = {2026},
